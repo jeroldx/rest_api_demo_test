@@ -57,8 +57,3 @@ class TestPostCategories(TestCase):
         delete_response = r.delete(self.url + str(self.body["id"]))
         self.assertEqual(delete_response.status_code, 204)
         self.assertEqual(r.get(self.url + str(self.body["id"])).status_code, 404)
-
-    def test_delete_overflow_value(self):
-        self.body["id"] = 9223372036854775808
-        delete_response = r.delete(self.url + str(self.body["id"]))
-        self.assertEqual(delete_response.status_code, 400)
