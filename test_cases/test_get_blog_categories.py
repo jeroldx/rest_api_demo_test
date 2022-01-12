@@ -12,7 +12,7 @@ class TestPostCategories(TestCase):
         self.blog_url = "http://localhost:8888/api/blog/posts/"
         self.headers = {"Accept": "application/json"}
         self.category_id = randrange(100, 199)
-        self.body = {"name": f"{uuid4()}_{datetime.now()}", "id": self.category_id}
+        self.body = {"name": f"{uuid4()}_{datetime.now()}_get_blog", "id": self.category_id}
         self.blog_body = {"body": f"{uuid4()}_{datetime.now()}",
                           "category_id": self.category_id,
                           "title": f"{uuid4()}_{datetime.now()}"}

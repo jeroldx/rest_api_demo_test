@@ -10,7 +10,7 @@ class TestPostCategories(TestCase):
     def setUp(self):
         self.url = "http://localhost:8888/api/blog/categories/"
         self.headers = {"Accept": "application/json"}
-        self.body = {"name": f"{uuid4()}_{datetime.now()}", "id": randrange(100, 199)}
+        self.body = {"name": f"{uuid4()}_{datetime.now()}_post", "id": randrange(100, 199)}
         r.delete(self.url + str(self.body["id"]))
 
     def tearDown(self):

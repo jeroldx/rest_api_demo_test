@@ -1,4 +1,4 @@
-# Test Cases for rest_api_demo
+Test Cases for rest_api_demo
 ==============================
 
 Test cases for the sample RESTful API found here: 

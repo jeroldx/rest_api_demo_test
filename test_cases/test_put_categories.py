@@ -10,7 +10,7 @@ class TestPostCategories(TestCase):
     def setUp(self):
         self.url = "http://localhost:8888/api/blog/categories/"
         self.headers = {"Accept": "application/json"}
-        self.body = {"name": f"{uuid4()}_{datetime.now()}", "id": randrange(100, 199)}
+        self.body = {"name": f"{uuid4()}_{datetime.now()}_put", "id": randrange(100, 199)}
         r.post(self.url, json=self.body)
 
     def tearDown(self):
@@ -29,14 +29,15 @@ class TestPostCategories(TestCase):
         self.assertEqual(put_response.status_code, 404)
 
     def test_large_id(self):
-        self.body["id"] = 9223372036854775807
-        r.delete(self.url + str(self.body["id"]))
-        r.post(self.url, json=self.body)
+        large_id_body = {"name": f"{uuid4()}_{datetime.now()}_put", "id": 9223372036854775807}
+        r.delete(self.url + str(large_id_body["id"]))
+        r.post(self.url, json=large_id_body)
         update_body = {"name": f"{uuid4()}_{datetime.now()}"}
-        put_response = r.put(self.url + str(self.body["id"]), json=update_body)
+        put_response = r.put(self.url + str(large_id_body["id"]), json=update_body)
         self.assertEqual(put_response.status_code, 204)
-        get_response = r.get(self.url + str(self.body["id"])).json()
+        get_response = r.get(self.url + str(large_id_body["id"])).json()
         self.assertEqual(update_body["name"], get_response["name"])
+        r.delete(self.url + str(large_id_body["id"]))
 
     def test_no_name(self):
         del(self.body["name"])
