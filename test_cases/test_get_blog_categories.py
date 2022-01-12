@@ -31,34 +31,18 @@ class TestPostCategories(TestCase):
                 r.delete(self.blog_url + str(post_id))
         r.delete(self.url + str(self.body["id"]))
 
-    def test_delete_category(self):
+    def test_get_category_no_posts(self):
         r.post(self.url, json=self.body)
-        delete_response = r.delete(self.url + str(self.body["id"]))
-        self.assertEqual(delete_response.status_code, 204)
-        self.assertEqual(r.get(self.url + str(self.body["id"])).status_code, 404)
+        get_response = r.get(self.url + str(self.body["id"]))
+        self.assertEqual(get_response.status_code, 200)
 
-    def test_delete_category_not_found(self):
-        delete_response = r.delete(self.url + str(self.body["id"]))
-        self.assertEqual(delete_response.status_code, 404)
-
-    def test_delete_category_in_use(self):
+    def test_get_category_with_post(self):
         r.post(self.url, json=self.body)
         r.post(self.blog_url, json=self.blog_body)
-        delete_response = r.delete(self.url + str(self.body["id"]))
-        self.assertEqual(delete_response.status_code, 409)
-        self.assertEqual(r.get(self.url + str(self.body["id"])).status_code, 200)
+        get_response = r.get(self.url + str(self.body["id"]))
+        self.assertEqual(get_response.status_code, 200)
+        self.assertEqual(len(get_response.json()["posts"]), 1)
 
-    def test_delete_after_removing_posts(self):
-        r.post(self.url, json=self.body)
-        r.post(self.blog_url, json=self.blog_body)
-        post_ids = [p["id"] for p in r.get(self.url + str(self.body["id"])).json()["posts"]]
-        for post_id in post_ids:
-            r.delete(self.blog_url + str(post_id))
-        delete_response = r.delete(self.url + str(self.body["id"]))
-        self.assertEqual(delete_response.status_code, 204)
-        self.assertEqual(r.get(self.url + str(self.body["id"])).status_code, 404)
-
-    def test_delete_overflow_value(self):
-        self.body["id"] = 9223372036854775808
-        delete_response = r.delete(self.url + str(self.body["id"]))
-        self.assertEqual(delete_response.status_code, 400)
+    def test_get_non_existent_category(self):
+        get_response = r.get(self.url + str(self.body["id"]))
+        self.assertEqual(get_response.status_code, 404)
