@@ -1,0 +1,12 @@
+﻿Endpoint,Issue type,Description 
+GET /blog/categories/,UI ,Id values of larger than 16 digits are rounded up when displayed 
+POST /blog/categories,Functional,The first character is removed from the name of a submitted category 
+POST /blog/categories,Functional,"Doesn't use the first available value for id, uses the highest existent value + 1 (or in the case where the highest value is 9223372036854775807, a random value) "
+POST /blog/categories,Functional ,"500 error when passing in an id for a category that already exists, should fail more gracefully with a 400 error "
+POST /blog/categories,Functional ,Negative id values are accepted 
+POST /blog/categories,Functional ,"500 error when an id higher than 9223372036854775807 is used, should fail more gracefully with a 400 error"
+POST /blog/categories,Suggested Funcionality ,Return id of the submitted category 
+POST /blog/categories,Suggested Funcionality ,No current limit on the number of characters that can be submitted for name
+POST /blog/categories,Suggested UI,API documentation doesn't account for 400 response 
+DELETE /blog/categories/{id},Functional,Allows for deletion of categories that are in use (contain blog posts) 
+DELETE /blog/categories/{id},Functional ,"500 error when an id higher than 9223372036854775807 is used, should fail more gracefully with a 400 error"
