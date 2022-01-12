@@ -1,0 +1,33 @@
+GET /blog/categories/
+    Larger (16+ digits) id values are rounded visually when displayed on the site
+
+POST /blog/categories/
+    trims first character off of names when creating a new category
+    doesn't use the first available id, just the highest (probably not actually a problem)
+    500 error when passing in an id for a category that already exists
+    accepts negative values for "id" (can't be deleted afterwards)
+    "id": 0 seems to be default value, adding it manually just appends the category as normal rather than inserting at 0
+        can't actually have an "id" of 0
+            apparently yes you can, it just requires 0 to be higher than all existing ids
+    500 error when using "id" value above 9223372036854775807 (or below -9223372036854775808)
+    "id" values of 9223372036854775807 are input as 9223372036854776000
+        rounded to 16 digits
+        allows duplicate values for "id"
+        visual only - cannot use 9223372036854776000 to delete these categories
+        same for negative values (-9223372036854775808 to -9223372036854776000)
+        If I had to guess I'd say that the value in the SQL table is correct, but just gets rounded when python returns the dict
+        Nevermind, looks like it's a issue with the browser, the actual JSON is correct
+    would be useful if the endpoint returned the id of the submitted category
+    no apparent limit on "name" character count
+    400 response not accounted for in api documentation
+    Chooses a random id if at the int max?
+
+DELETE /blog/categories/{id}
+    Allows for deletion of categories that have posts
+    Same as above, 500 error when submitting values above 9223372036854775807
+
+GET /blog/categories/{id}
+    no documentation for 200 response
+
+PUT /blog/categories/{id}
+    no documentation for 400 response
