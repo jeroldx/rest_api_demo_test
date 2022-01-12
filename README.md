@@ -5,6 +5,7 @@ Test cases for the sample RESTful API found here:
 https://github.com/amaccormack-lumira/rest_api_demo
 
 #Usage 
+Follow the instuctions in the rest_api_demo project to make sure the server is running. 
 
 Activate the python virtual environment
 ```commandline
