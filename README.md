@@ -5,7 +5,7 @@ Test cases for the sample RESTful API found here:
 https://github.com/amaccormack-lumira/rest_api_demo
 
 #Usage 
-##Setup 
+
 Activate the python virtual environment
 ```commandline
 venv\Scripts\activate
